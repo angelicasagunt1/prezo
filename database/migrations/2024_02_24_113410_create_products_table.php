@@ -20,9 +20,6 @@ return new class extends Migration
             $table->integer('quantity');
             $table->decimal('price', 8, 2);
             $table->timestamps();
-
-            $table->foreign('unit_id')->references('id')->on('units');
-
         });
     }
 
