@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Este es el repositorio para el proyecto Prezo. Prezo es una plataforma diseñada para gestionar recetas de cócteles y sus ingredientes.
+Este es el repositorio para el proyecto Prezo. Prezo es una plataforma diseñada para gestionar recetas y sus ingredientes.
 
 ## Instrucciones de Instalación
 
