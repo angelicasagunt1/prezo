@@ -1,19 +1,32 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\RecipeLineController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    /* Recetas: */
+    Route::post('/recipe', [RecipeController::class, 'store']);
+    Route::get('/recipe', [RecipeController::class, 'get']);
+    Route::get('/recipe/sorted-by-cost', [RecipeController::class, 'getRecipesSortedByCost']);
+    Route::get('/recipe/most-profitable', [RecipeController::class, 'mostProfitableRecipe']);
+
+    /* Agregar Linea de Receta */
+    Route::post('/recipe-line/{recipe}', [RecipeLineController::class, 'store']);
+
+    /* Productos */
+    Route::post('/product', [ProductController::class, 'store']);
+    Route::get('/product', [ProductController::class, 'get']);
+
 });
