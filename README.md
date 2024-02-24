@@ -16,7 +16,12 @@ Este es el repositorio para el proyecto Prezo. Prezo es una plataforma diseñada
     docker-compose up -d --build
     ```
 
-3. **Migraciones y Seeders**: Una vez que los contenedores estén en funcionamiento, ejecuta las migraciones y seeders desde la terminal:
+3. **Ejecutar Composer Install**: 
+    ```
+    composer install --no-scripts
+    ```
+
+4. **Migraciones y Seeders**: Una vez que los contenedores estén en funcionamiento, ejecuta las migraciones y seeders desde la terminal:
     - Establece los permisos adecuados para la carpeta de almacenamiento:
         ```
         docker-compose exec app chown -R www-data:www-data storage
@@ -29,6 +34,7 @@ Este es el repositorio para el proyecto Prezo. Prezo es una plataforma diseñada
         ```
         php artisan db:seed --class=UserSeeder && php artisan db:seed --class=UnitSeeder && php artisan db:seed --class=ProductSeeder && php artisan db:seed --class=RecipeSeeder
         ```
+5. **.ENV**: Crear archivo .env (podes basarte en el archivo .env.example)
 
 ## Información Importante
 
