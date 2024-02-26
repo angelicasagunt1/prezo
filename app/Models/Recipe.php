@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Utils\CostCalculator;
 
 class Recipe extends Model
 {
@@ -15,20 +16,12 @@ class Recipe extends Model
         return $this->hasMany(RecipeLine::class);
     }
 
-    public function calculateCost(): float|int
+    public function calculateTotalCost()
     {
-        $totalCost = 0;
+        $totalCost = CostCalculator::calculateCost($this);
 
-        foreach ($this->recipeLines as $line) {
-            $product = $line->product;
-            $quantity = $line->quantity;
-            $unitType = $line->product->unit->abbreviation;
-
-            if ($unitType == 'ml' || $unitType == 'kg') {
-                $totalCost += $product->price / ($line->product->quantity / $line->net_quantity);
-            } else {
-                $totalCost += $product->price * $quantity;
-            }
+        foreach ($this->subRecipes as $subRecipe) {
+            $totalCost += CostCalculator::calculateCost($subRecipe);
         }
 
         return $totalCost;

@@ -41,20 +41,18 @@ class RecipeController extends Controller
         }
 
     }
-
     public function getRecipesSortedByCost()
     {
         $recipes = Recipe::with('recipeLines.product')
             ->get()
             ->map(function ($recipe) {
-                $recipe->total_cost = $recipe->calculateCost();
+                $recipe->total_cost = $recipe->calculateTotalCost();
                 return $recipe;
             })
-        ->sortBy('total_cost')
+            ->sortBy('total_cost')
             ->map(function ($recipe) {
                 return $recipe['name'] . ': ' . $recipe['total_cost'] . ' $';
             })
-
             ->values();
 
         return response()->json(['recipes' => $recipes]);
