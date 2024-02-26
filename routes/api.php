@@ -18,7 +18,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /* Recetas: */
     Route::post('/recipe', [RecipeController::class, 'store']);
-    Route::get('/recipe', [RecipeController::class, 'get']);
+    Route::get('/recipe', [RecipeController::class, 'getAllRecipes']);
+    Route::get('/recipe/{id}', [RecipeController::class, 'getRecipeContent']);
     Route::get('/recipe/sorted-by-cost', [RecipeController::class, 'getRecipesSortedByCost']);
     Route::get('/recipe/most-profitable', [RecipeController::class, 'mostProfitableRecipe']);
 
@@ -27,6 +28,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /* Productos */
     Route::post('/product', [ProductController::class, 'store']);
-    Route::get('/product', [ProductController::class, 'get']);
+    Route::get('/product', [ProductController::class, 'getAllProduct']);
+
+    /* Sub-recetas */
+    Route::post('/recipe/{recipe}/subrecipes', [RecipeController::class, 'addSubRecipe']);
 
 });
