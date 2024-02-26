@@ -75,4 +75,38 @@ class RecipeController extends Controller
 
         return response()->json(['most_profitable_recipe' => $mostProfitableRecipe]);
     }
+
+    public function getRecipeContent($id){
+        try {
+            $recipe = Recipe::with('subRecipes', 'recipeLines.product')->findOrFail($id);
+
+            $response = [
+                'main_recipe' => [
+                    'name' => $recipe->name,
+                    'selling_price' => $recipe->selling_price
+                ],
+                'ingredients' => [
+                    'product' => $recipe->recipeLines->map(function ($recipeLine) {
+                        return $recipeLine->product->name;
+                    })->toArray()
+                ]
+            ];
+
+            foreach ($recipe->subRecipes as $subRecipe) {
+                $response['sub_recipes'][] = [
+                    'name' => $subRecipe->name
+                ];
+
+                $ingredients = $subRecipe->recipeLines->map(function ($recipeLine) {
+                    return $recipeLine->product->name;
+                })->toArray();
+
+                $response['sub_recipes_ingredients'][] = $ingredients;
+            }
+
+            return response()->json($response);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(['message' => 'Receta no encontrada'], 404);
+        }
+    }
 }
