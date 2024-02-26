@@ -33,4 +33,10 @@ class Recipe extends Model
 
         return $totalCost;
     }
+
+    public function subRecipes()
+    {
+        return $this->belongsToMany(Recipe::class, 'compound_recipe', 'recipe_id', 'sub_recipe_id');
+    }
+
 }
