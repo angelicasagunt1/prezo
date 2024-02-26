@@ -34,7 +34,7 @@ class ProductController extends Controller
         }
     }
 
-    public function get()
+    public function getAllProduct()
     {
         try {
             $products = Product::all(['name', 'price']);
