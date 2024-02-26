@@ -8,7 +8,7 @@ use Illuminate\Validation\ValidationException;
 
 class RecipeController extends Controller
 {
-    public function get()
+    public function getAllRecipes()
     {
         $recipes = Recipe::all()->map(function ($recipe) {
             return [
@@ -108,5 +108,18 @@ class RecipeController extends Controller
         } catch (ModelNotFoundException $exception) {
             return response()->json(['message' => 'Receta no encontrada'], 404);
         }
+    }
+    public function addSubRecipe(Request $request, Recipe $recipe)
+    {
+        $request->validate([
+            'sub_recipe_id' => 'required|exists:recipes,id',
+        ]);
+
+        $subRecipeId = $request->input('sub_recipe_id');
+
+        $recipe->subRecipes()->attach($subRecipeId);
+
+        // Responder con la confirmación
+        return response()->json(['message' => 'Subrecipe added successfully'], 201);
     }
 }
